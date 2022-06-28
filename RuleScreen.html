@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tony Z's Gobang game</title>
+    <!--BackFunction is used to open a new window on startScreen
+    PlayFunction is used to jump to playScreen-->
+    <script type="text/javascript">
+        function backFunction() {
+            window.open("StartScreen.html", target="_self");
+        }
+
+        function playFunction() {
+            window.open("PlayScreen.html", target="_self");
+        }
+    </script>
+</head>
+
+<body>
+
+<!--This is the background-->
+<div style="height: 100%; width: 30%; left: 36%; position: absolute; z-index: 0; background-color: rgb(150, 194, 87); top: 0;">
+    <!--This is the text box that displays the information called from the Rule-->
+    <div>
+        <iframe src="Rule.html"
+                style="width: 93%; height: 70%; border-style: solid;background-color: rgb(134, 134, 230);padding: 5px 15px;position: absolute; left: 0.5%;"></iframe>
+    </div>
+
+    <!--This button is used to jump to the startScreen page-->
+    <form>
+        <input type="button"
+               value="Back"
+               onclick="backFunction()"
+               style="padding: 0; margin: 0; border-style: solid; height: 5%; width: 20%;background-color: rgb(247, 236, 96);
+               color: rgb(0, 0, 0); border-color: rgb(105, 136, 61);border-radius: 2px; border-width: 2px; font-family: Georgia, serif;
+               font-size: 15px;position: absolute; left: 6%; top: 84%;"></form>
+    <!--This button is used to jump to the playScreen page-->
+    <form>
+        <input type="button"
+               value="Start Now!"
+               onclick="playFunction()"
+               style="padding: 0; margin: 0; border-style: solid; height: 5%; width: 20%;background-color: rgb(247, 236, 96);
+               color: rgb(0, 0, 0); border-color: rgb(105, 136, 61);border-radius: 2px; border-width: 2px; font-family: Georgia, serif;
+               font-size: 15px;position: absolute; left: 74%; top: 84%;"></form>
+</div>
+
+</body>
+</html>

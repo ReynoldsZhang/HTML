@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tony Z's Gobang game</title>
+    <!--This is the javascript used to jump to the page-->
+    <script type="text/javascript">
+        function ruleFunction() {
+            window.open("RuleScreen.html", target="_self");
+        }
+
+        function playFunction() {
+            window.open("PlayScreen.html", target="_self");
+        }
+        function playAiFunction() {
+            window.open("AiPlayScreen.html", target="_self");
+        }
+    </script>
+    <style>
+        body {font-size:100%;}
+    </style>
+</head>
+
+<body>
+
+<!-- The following paragraph is the background-->
+<div style="background-color: rgb(255, 224, 73); height: 100%; width: 30%; left: 36%; position: absolute">
+    <!--This is the picture behind the background-->
+    <img src="image/gobang.gif"
+         alt="A row"
+         style="height: 60%; width: 100%; border-style: solid;border-width: 0; border-color: rgb(236, 229, 229); position: absolute;">
+    <!--This is the box above the picture and the text inside-->
+    <div style="width: 30%; height: 10%; border-style: solid; background-color: rgb(9, 221, 253); color: rgb(255, 0, 220);
+           border-color: rgb(15, 82, 138); border-radius: 6px; font-family: Arial, Helvetica, sans-serif; font-size: 1.875em;
+           padding: 5px 15px; position: absolute; left: 35%; top: 25%; text-align: center; overflow: hidden;
+           overflow-wrap: break-word;">&nbsp; Gobang</div>
+    <!--Here are two buttons used for entry to other pages-->
+    <form>
+        <input type="button"
+               value="Rule description"
+               onclick="ruleFunction()"
+               style="padding: 0; margin: 0; border-style: solid;height: 7%; width: 30%; background-color: rgb(91, 183, 231);
+               color: rgb(255, 255, 255); border-color: rgb(172, 207, 222);border-radius: 6px; border-width: 0;
+               font-family: Arial, Helvetica, sans-serif;font-size: 20px; position: absolute; left: 35%; top: 85%;">
+    </form>
+    <form>
+        <input type="button"
+               value="2P Start"
+               onclick="playFunction()"
+               style="padding: 0; margin: 0; border-style: solid;height: 7%; width: 30%; background-color: rgb(91, 183, 231);
+               color: rgb(255, 255, 255); border-color: rgb(172, 207, 222); border-radius: 6px;border-width: 0;
+               font-family: Arial, Helvetica, sans-serif; font-size: 20px;position: absolute; left: 35%; top: 75%;">
+    </form>
+    <form>
+        <input type="button"
+               value="1P Start"
+               onclick="playAiFunction()"
+               style="padding: 0; margin: 0; border-style: solid;height: 7%; width: 30%; background-color: rgb(91, 183, 231);
+               color: rgb(255, 255, 255); border-color: rgb(172, 207, 222);border-radius: 6px; border-width: 0;
+               font-family: Arial, Helvetica, sans-serif;font-size: 20px; position: absolute; left: 35%; top: 65%;">
+    </form>
+</div>
+
+</body>
+</html>

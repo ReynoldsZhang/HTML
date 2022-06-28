@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tony Z's Gobang game</title>
+</head>
+
+<style type="text/css">
+    canvas {
+        display: block;
+        margin: 8% auto;
+        box-shadow: -2px -2px 2px #F3F2F2, 5px 5px 5px #6F6767;
+    }
+</style>
+
+<body>
+
+<!--The main background-->
+<div style="height: 100%; width: 100%; position: absolute; background-color: rgb(174, 226, 244);">
+    <!--Used to tell the user which game is being played-->
+    <div id="turn"
+         style="width: 5%; height: 10%; border-style: solid; background-color: rgb(0, 148, 202);
+         color: rgb(219, 230, 225); border-color: rgb(255, 255, 255); border-radius: 8px; border-width: 2px;
+          font-family: Arial, Helvetica, sans-serif; font-size: 30px; padding: 5px 15px; position: absolute;
+          left: 87%; top: 9%; margin: 0; overflow: hidden; overflow-wrap: break-word;"></div>
+    <!--Displays the number of black's current moves on the board-->
+    <div id="blackNumber"
+         style="width: 4%; height: 2.7%; border-style: solid; background-color: rgb(0, 148, 202);
+         color: rgb(239, 250, 255); border-color: rgb(255, 255, 255); border-radius: 8px; border-width: 2px;
+         font-family: Arial, Helvetica, sans-serif; font-size: 30px; padding: 5px 15px; position: absolute;
+         left: 9%; top: 5%; margin: 0;"></div>
+    <!--The label used to distinguish white from black-->
+    <label style="margin: 0; line-height: 1; overflow: hidden; overflow-wrap: break-word; max-width: 320px;
+    border-style: solid; text-rendering: optimizespeed; color: rgb(239, 250, 255); background-color: rgb(0, 148, 202);
+    border-color: rgb(255, 255, 255); border-radius: 2px; border-width: 0; font-family: Verdana, Geneva, sans-serif;
+    font-size: 25px; padding: 2px 15px; width: 4%; height: 3.5%; position: absolute; left: 2%; top: 5%;">Black</label>
+    <label style="margin: 0; line-height: 1; overflow: hidden; overflow-wrap: break-word; max-width: 320px;
+        border-style: solid; text-rendering: optimizespeed; color: rgb(239, 250, 255); background-color: rgb(0, 148, 202);
+        border-color: rgb(255, 255, 255); border-radius: 2px; border-width: 0; font-family: Verdana, Geneva, sans-serif;
+        font-size: 25px; padding: 2px 15px; width: 4%; height: 3.5%; position: absolute; left: 2%; top: 9%;">White</label>
+    <!--Displays the number of white pieces on the board-->
+    <div id="whiteNumber"
+         style="width: 4%; height: 2.7%; border-style: solid; background-color: rgb(0, 148, 202); color: rgb(239, 250, 255);
+         border-color: rgb(255, 255, 255); border-radius: 8px; border-width: 2px; font-family: Arial, Helvetica, sans-serif;
+         font-size: 30px; padding: 5px 15px; position: absolute; left: 9%; top: 9%; margin: 0;"></div>
+    <!--Some of the celebratory phrases are shown here-->
+    <label id="who"
+           style="margin: 0; line-height: 1;
+           text-rendering: optimizespeed; border-radius: 0;border-width: 0; font-family: Tahoma, Geneva, sans-serif;
+           font-size: 40px; padding: 2px 15px;width: 10%; height: 20%; position: absolute; left: 42%;color: aqua;
+           top: 20%; text-align: center; display: none"> &nbsp;Congratulations, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;you &nbsp;&nbsp; </label>
+    <label id="Win"
+           style="margin: 0; line-height: 1;text-rendering: optimizespeed; border-radius: 0;border-width: 0; color: red;
+           font-family: Tahoma, Geneva, sans-serif; padding: 2px 15px; position: absolute; left: 30%;
+           top: 45%; font-size: 300px; text-align: center; display: none">WIN</label>
+    <!--TXT area is used to display the winner-->
+    <div id="Winner"
+         style="width: 15%; height: 20%; border-style: solid; border-radius: 0;border-width: 0;
+         font-family: Tahoma, Geneva, sans-serif; font-size: 40px;padding: 5px 15px;color: darkorange;
+         position: absolute; left: 45%; top: 30%; margin: 0; display: none "></div>
+    <!--Return to StartScreen via button-->
+    <form>
+        <input type="button"
+               value="Back"
+               onclick="back()"
+               style="padding: 0; margin: 0; border-style: solid; height: 7%; width: 9%;
+               background-color: rgb(239, 250, 255); color: rgb(0, 148, 202); border-color: rgb(172, 207, 222);
+               border-radius: 20px; border-width: 2px; font-family: Verdana, Geneva, sans-serif; font-size: 20px;
+               position: absolute; left: 2%; top: 82%;">
+    </form>
+    <!--Start a new round through Button-->
+    <form>
+        <input type="button"
+               value="Start again"
+               onclick="start()"
+               style="padding: 0; margin: 0; border-style: solid; height: 7%; width: 9%;
+               background-color: rgb(239, 250, 255); color: rgb(0, 148, 202); border-color: rgb(172, 207, 222);
+               border-radius: 20px; border-width: 2px; font-family: Verdana, Geneva, sans-serif; font-size: 20px;
+               position: absolute; left: 45%; top: 82%;">
+    </form>
+    <form>
+        <input type = "button"
+               value="Repentant chess"
+               onclick="resetChess()"
+               style="padding: 0; margin: 0; border-style: solid; height: 7%; width: 9%;
+               background-color: rgb(239, 250, 255); color: rgb(0, 148, 202); border-color: rgb(172, 207, 222);
+               border-radius: 20px; border-width: 2px; font-family: Verdana, Geneva, sans-serif; font-size: 20px;
+               position: absolute; left: 87%; top: 82%;">
+    </form>
+    <canvas id="theChess" width="450px" height="450px" style="background-color: coral; left: 30%; top: 30%;"></canvas>
+</div>
+<script type="text/javascript">
+    const none = -1;
+    const black = 0; //black chessman
+    const white = 1; //white
+    const winNum = 5; //Victory conditions
+    let now = black; // It is used for the subsequent conversion between black and white for judgment
+    const size = 15; //The board size
+    const table = new Array(size); //Used to record coordinates
+    let blackCount = 0; //Black number
+    let whiteCount = 0; //White number
+    const chess = document.getElementById("theChess");
+    const context = chess.getContext('2d');
+    const chessSit = []; //Used to store the number of pieces in the board
+    const chessXSit = [];
+    const chessYSit = [];
+
+
+
+    drawBoard();//Drawing board
+    remake(chessSit);
+    document.getElementById('turn').innerText = "Black first";
+    //init
+    for (let i = 0; i < table.length; i++) {
+        table[i] = new Array(size);
+        for (let j = 0; j < table[i].length; j++) {
+            table[i][j] = none;
+        }
+    }
+
+
+//Assign an initial value
+    function remake(chess) {
+        for (let i = 0; i < 15; i++) {
+            chess[i] = [];
+            for (let j = 0; j < 15; j++) {
+                chess[i][j] = 0;//The initial value is 0
+            }
+        }
+    }
+//draw board
+    function drawBoard() {
+        for (let i = 0; i < 15; i++) {
+            context.strokeStyle = "#D6D1D1";
+            context.moveTo(15 + i * 30, 15);//Draw 15 lines in the vertical direction 30px apart.
+            context.lineTo(15 + i * 30, 435);
+            context.stroke();
+            context.moveTo(15, 15 + i * 30);//Draw 15 horizontal lines 30px apart. The board is 14 x 14;
+            context.lineTo(435, 15 + i * 30);
+            context.stroke();
+        }
+    }
+//Draw the pieces
+    function drawPiece(i, j, k) {
+        context.beginPath();
+        context.arc(15 + i * 30, 15 + j * 30, 13, 0, 2 * Math.PI);
+        const g = context.createRadialGradient(15 + i * 30, 15 + j * 30, 13, 15 + i * 30, 15 + j * 30, 0);//Set the gradient
+        if (k) {    //K =true is black, otherwise is white
+            g.addColorStop(0, '#0A0A0A');//black
+            g.addColorStop(1, '#636766');
+        } else {
+            g.addColorStop(0, '#D1D1D1');//white
+            g.addColorStop(1, '#F9F9F9');
+        }
+        context.fillStyle = g;
+        context.fill();
+        context.closePath();
+    }
+
+//Judge the position of the chess
+    chess.onclick = function (e) {
+        const xMoth = e.offsetX;//The mouse is pointing to the x coordinate
+        const yMoth = e.offsetY;//The mouse is pointing to the y coordinate
+        const xChess = Math.floor(xMoth / 30);//The x-coordinate above the checkerboard
+        const yChess = Math.floor(yMoth / 30);//The y coordinate above the checkerboard
+        onStep(xChess, yChess);
+        chessXSit.push(xChess);
+        chessYSit.push(yChess);
+        document.getElementById('blackNumber').innerText = blackCount.toString();
+        document.getElementById('whiteNumber').innerText = whiteCount.toString();
+        document.getElementById('turn').innerText = getTurn() + " turn";
+    }
+    //table[x][y]
+    function onStep(x, y) {
+        if (isExist(x, y)) {
+            return false;
+        } else {
+            if (now === black) {
+                blackCount++;
+            } else {
+                whiteCount++;
+            }
+            drawPiece(x, y, isBlack())
+            table[x][y] = now;
+            if (isEnd(x, y)) {
+                gameEnd()
+            }
+            toOpposite()
+            return true;
+        }
+    }
+
+   function resetChess(){
+        let xSit = 0;
+        let ySit = 0;
+        xSit = chessXSit[chessXSit.length - 1];
+        ySit = chessYSit[chessYSit.length - 1];
+        minusStep(xSit, ySit);
+        return true;
+    }
+
+    function minusStep(x,y) {
+        if (whiteCount === 0 && blackCount === 0){
+            return;
+        } else if (whiteCount === 0 && blackCount === 1){
+            blackCount -= 1;
+        } else if (!isBlack()){
+            blackCount -= 1;
+        } else {
+            whiteCount -= 1;
+        }
+        table[x][y] = -1;
+        toOpposite();
+        chessYSit.pop();
+        chessXSit.pop();
+
+        //擦除该圆
+        context.clearRect((x) * 30, (y) * 30, 30, 30);
+        // 重画该圆周围的格子
+        context.beginPath();
+        context.moveTo(15+x*30 , y*30);
+        context.lineTo(15+x*30 , y*30 + 30);
+        context.moveTo(x*30, y*30+15);
+        context.lineTo((x+1)*30 , y*30+15);
+        context.stroke();
+
+        document.getElementById('blackNumber').innerText = blackCount.toString();
+        document.getElementById('whiteNumber').innerText = whiteCount.toString();
+        document.getElementById('turn').innerText = getTurn() + " turn";
+        isEnd(x, y);
+        return true;
+      }
+
+    function isBlack() {
+        return now === black;
+    }
+//Determine which side plays chess and convert to a string
+    function getTurn() {
+        if (now === black) {
+            return "BLACK";
+        } else {
+            return "WHITE";
+        }
+    }
+//Decide which side should start the chess game
+    function toOpposite() {
+        if (now === black) {
+            now = white
+        } else {
+            now = black
+        }
+    }
+//Decide whether to play chess
+    function isExist(x, y) {
+        if (x >= size || y >= size) {
+            return false;
+        }
+        if (x < 0 || y < 0) {
+            return false;
+        }
+        return table[x][y] !== none;
+    }
+//Call each function that determines victory
+    function isEnd(x, y) {
+        if (vertical(x, y) >= winNum) {
+            return true;
+        }
+        if (horizontal(x, y) >= winNum) {
+            return true;
+        }
+        if (line1(x, y) >= winNum) {
+            return true;
+        }
+        if (line2(x, y) >= winNum) {
+            return true;
+        }
+        return false;
+    }
+//Determine whether the vertical victory condition is met
+    function vertical(x, y) {
+        const type = table[x][y]
+        let counter = 1;
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x + i, y)) {
+                break;
+            }
+            if (table[x + i][y] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x - i, y)) {
+                break;
+            }
+            if (table[x - i][y] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        return counter
+    }
+//Determine whether the horizontal victory condition is met
+    function horizontal(x, y) {
+        const type = table[x][y]
+        let counter = 1;
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x, y + i)) {
+                break;
+            }
+            if (table[x][y + i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x, y - i)) {
+                break;
+            }
+            if (table[x][y - i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        return counter
+    }
+
+    //Determine if the winning condition is reached in chess from top left -> bottom right
+    function line1(x, y) {
+        const type = table[x][y]
+        let counter = 1;
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x - i, y + i)) {
+                break;
+            }
+            if (table[x - i][y + i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x + i, y - i)) {
+                break;
+            }
+            if (table[x + i][y - i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        return counter
+    }
+
+    //Determine if the winning condition is reached in chess from bottom left -> top right
+    function line2(x, y) {
+        const type = table[x][y]
+        let counter = 1;
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x - i, y - i)) {
+                break;
+            }
+            if (table[x - i][y - i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        for (let i = 1; i < 5; i++) {
+            if (!isExist(x + i, y + i)) {
+                break;
+            }
+            if (table[x + i][y + i] !== type) {
+                break;
+            } else {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+//The action that will take place if the game ends
+    function gameEnd() {
+        document.getElementById('Winner').innerText = getTurn();
+        document.getElementById("Winner").style.display = "block";
+        document.getElementById("who").style.display = "block";
+        document.getElementById("Win").style.display = "block";
+    }
+//Click button to jump to StatScreen
+    function back() {
+        window.open("StartScreen.html", target = "_self");
+    }
+    //Here we go again by clicking on the button
+    function start() {
+        window.open("PlayScreen.html", target = "_self");
+    }
+</script>
+
+</body>
+</html>
